@@ -33,6 +33,14 @@ defmodule Chat.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:commanded, "~> 1.2"},
+      {:commanded_ecto_projections, "~> 1.2"},
+      {:commanded_eventstore_adapter, "~> 1.2"},
+      {:eventstore, "~> 1.1"},
+      {:vex, "~> 0.8"},
+      {:exconstructor, "~> 1.1"},
+      {:argon2_elixir, "~> 2.3.0"},
+      {:elixir_uuid, "~> 1.2"},
       {:phoenix, "~> 1.5.0"},
       {:phoenix_ecto, "~> 4.1"},
       {:ecto_sql, "~> 3.4"},
@@ -57,6 +65,7 @@ defmodule Chat.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "ecto.setup", "cmd npm install --prefix assets"],
+      "event_store.init": ["event_store.drop", "event_store.create", "event_store.init"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate", "test"]

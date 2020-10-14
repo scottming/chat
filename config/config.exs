@@ -8,7 +8,16 @@
 use Mix.Config
 
 config :chat,
-  ecto_repos: [Chat.Repo]
+  ecto_repos: [Chat.Repo],
+  event_stores: [Chat.EventStore]
+
+config :chat, Chat.App,
+  event_store: [
+    adapter: Commanded.EventStore.Adapters.EventStore,
+    event_store: Chat.EventStore
+  ],
+  pub_sub: :local,
+  registry: :local
 
 # Configures the endpoint
 config :chat, ChatWeb.Endpoint,

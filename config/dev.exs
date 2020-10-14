@@ -2,11 +2,19 @@ use Mix.Config
 
 # Configure your database
 config :chat, Chat.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: System.get_env("USER"),
+  password: "",
   database: "chat_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
+  pool_size: 10
+
+config :chat, Chat.EventStore,
+  serializer: Commanded.Serialization.JsonSerializer,
+  username: "scottming",
+  password: "",
+  database: "chat_eventstore_dev",
+  hostname: "localhost",
   pool_size: 10
 
 # For development, we disable any cache and enable

@@ -7,6 +7,7 @@ defmodule Chat.Application do
 
   def start(_type, _args) do
     children = [
+      Chat.App,
       # Start the Ecto repository
       Chat.Repo,
       # Start the Telemetry supervisor
