@@ -11,8 +11,8 @@ defmodule Chat.Accounts do
   alias Chat.Repo
   alias Chat.App
 
-  def get_user_by!(condition) do
-    Repo.get_by!(User, condition)
+  def get_user_by(condition) do
+    Repo.get_by(User, condition)
   end
 
   def register_user(attrs) do

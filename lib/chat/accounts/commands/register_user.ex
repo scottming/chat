@@ -12,7 +12,7 @@ defmodule Chat.Accounts.Commands.RegisterUser do
 
   validates(:username,
     presence: [message: "can't be empty"],
-    format: [with: ~r/^[a-z0-9]]+$/, message: "is invalid"],
+    format: [with: ~r/^[a-z0-9]+$/, allow_nil: true, allow_blank: true, message: "is invalid"],
     string: true,
     by: &UniqueUsername.validate/2
   )
