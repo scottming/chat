@@ -4,7 +4,7 @@ use Mix.Config
 config :chat, Chat.Repo,
   username: System.get_env("USER"),
   password: "",
-  database: "chat_dev",
+  database: "chat_readstore_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

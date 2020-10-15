@@ -5,7 +5,7 @@ defmodule Chat.Accounts.Projection.User do
   @primary_key {:uuid, :binary_id, autogenerate: false}
   @timestamps_opts [type: :utc_datetime_usec]
 
-  schema "users" do
+  schema "accounts_users" do
     field :email, :string
     field :hashed_password, :string
     field :username, :string

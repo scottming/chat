@@ -4,17 +4,24 @@
 # remember to add this file to your .gitignore.
 use Mix.Config
 
-database_url =
-  System.get_env("DATABASE_URL") ||
+readstore_database_url =
+  System.get_env("READSTORE_DATABASE_URL") ||
     raise """
     environment variable DATABASE_URL is missing.
     For example: ecto://USER:PASS@HOST/DATABASE
     """
 
+eventstore_database_url = System.get_env("EVENTSTORE_DATABASE_URL")
+
 config :chat, Chat.Repo,
   # ssl: true,
-  url: database_url,
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
+  url: readstore_database_url,
+  pool_size: String.to_integer(System.get_env("READSTORE_POOL_SIZE") || "10")
+
+config :chat, Chat.EventStore,
+  url: eventstore_database_url,
+  serializer: Commanded.Serialization.JsonSerializer,
+  pool_size: String.to_integer(System.get_env("EVENTSTROE_POOL_SIZE") || "15")
 
 secret_key_base =
   System.get_env("SECRET_KEY_BASE") ||
