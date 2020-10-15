@@ -11,17 +11,22 @@ readstore_database_url =
     For example: ecto://USER:PASS@HOST/DATABASE
     """
 
-eventstore_database_url = System.get_env("EVENTSTORE_DATABASE_URL")
-
-config :chat, Chat.Repo,
-  # ssl: true,
-  url: readstore_database_url,
-  pool_size: String.to_integer(System.get_env("READSTORE_POOL_SIZE") || "10")
+eventstore_database_url =
+  System.get_env("EVENTSTORE_DATABASE_URL") ||
+    raise """
+    environment variable DATABASE_URL is missing.
+    For example: postgresql://USER:PASS@HOST/DATABASE
+    """
 
 config :chat, Chat.EventStore,
   url: eventstore_database_url,
   serializer: Commanded.Serialization.JsonSerializer,
   pool_size: String.to_integer(System.get_env("EVENTSTROE_POOL_SIZE") || "15")
+
+config :chat, Chat.Repo,
+  # ssl: true,
+  url: readstore_database_url,
+  pool_size: String.to_integer(System.get_env("READSTORE_POOL_SIZE") || "10")
 
 secret_key_base =
   System.get_env("SECRET_KEY_BASE") ||
