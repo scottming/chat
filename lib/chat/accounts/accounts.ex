@@ -15,6 +15,13 @@ defmodule Chat.Accounts do
     Repo.get_by(User, condition)
   end
 
+  def list_users(args) when is_map(args) do
+    Enum.reduce(args, User, fn
+      {:user_uuids, user_uuids}, query ->
+        from q in query, where: q.uuid in ^user_uuids
+    end)
+  end
+
   def register_user(attrs) do
     uuid = UUID.uuid4()
 

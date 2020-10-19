@@ -6,15 +6,15 @@ use Mix.Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :chat, Chat.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: System.get_env("USER"),
+  password: "",
   database: "chat_test#{System.get_env("MIX_TEST_PARTITION")}",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :chat, Chat.EventStore,
   serializer: Commanded.Serialization.JsonSerializer,
-  username: "scottming",
+  username: System.get_env("USER"),
   password: "",
   database: "chat_eventstore_test",
   hostname: "localhost",

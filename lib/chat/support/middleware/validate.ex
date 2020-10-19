@@ -5,7 +5,6 @@ defmodule Chat.Support.Middleware.Validate do
   import Pipeline
 
   def before_dispatch(%Pipeline{command: command} = pipeline) do
-    command |> IO.inspect(label: "command")
     case Vex.valid?(command) do
       true -> pipeline
       false -> failed_validation(pipeline)

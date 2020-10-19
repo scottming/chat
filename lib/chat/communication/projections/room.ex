@@ -2,6 +2,8 @@ defmodule Chat.Communication.Projections.Room do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key {:uuid, :binary_id, autogenerate: false}
+
   schema "rooms" do
     field :name, :string
     field :type, :string

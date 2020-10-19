@@ -2,7 +2,7 @@ use Mix.Config
 
 config :chat, Chat.EventStore,
   serializer: Commanded.Serialization.JsonSerializer,
-  username: "scottming",
+  username: System.get_env("USER"),
   password: "",
   database: "chat_eventstore_dev",
   hostname: "localhost",
