@@ -24,6 +24,8 @@ defmodule Chat.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Chat.DataCase
+      import Chat.Factory
+      import Chat.Fixture
     end
   end
 

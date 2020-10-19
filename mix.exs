@@ -37,6 +37,7 @@ defmodule Chat.MixProject do
       {:commanded_ecto_projections, "~> 1.2"},
       {:commanded_eventstore_adapter, "~> 1.2"},
       {:eventstore, "~> 1.1"},
+      {:ex_machina, "~> 2.4"},
       # {:vex, "~> 0.8"},
       {:skooma, "~> 0.2.0"},
       {:exconstructor, "~> 1.1"},

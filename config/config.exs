@@ -23,8 +23,6 @@ config :commanded, event_store: Commanded.EventStore.Adapters.EventStore
 
 config :commanded_ecto_projections, repo: Chat.Repo
 
-config :vex, sources: [Chat.Accounts.Validators, Vex.Validators, Chat.Support.Validators]
-
 # Configures the endpoint
 config :chat, ChatWeb.Endpoint,
   url: [host: "localhost"],
