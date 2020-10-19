@@ -14,7 +14,7 @@ defmodule Chat.Communication.Validator.UniqueChannelName do
   end
 
   def room_name_exists?(room_name, room_uuid) do
-    case Communication.get_room_by(name: room_name)  do
+    case Communication.get_room_by(name: room_name) do
       %Room{uuid: ^room_uuid} -> false
       nil -> false
       _ -> true
