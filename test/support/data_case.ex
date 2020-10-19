@@ -29,13 +29,18 @@ defmodule Chat.DataCase do
     end
   end
 
-  setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Chat.Repo)
+  # setup tags do
+  #   :ok = Ecto.Adapters.SQL.Sandbox.checkout(Chat.Repo)
 
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Chat.Repo, {:shared, self()})
-    end
+  #   unless tags[:async] do
+  #     Ecto.Adapters.SQL.Sandbox.mode(Chat.Repo, {:shared, self()})
+  #   end
 
+  #   :ok
+  # end
+
+  setup do
+    Chat.Storage.reset!()
     :ok
   end
 
