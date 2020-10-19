@@ -10,6 +10,7 @@ defmodule Chat.Middleware.ValidateCommand do
 
       {:error, messages} ->
         pipeline
+        |> IO.inspect()
         |> Pipeline.respond({:error, :command_validation_failure, command, messages})
         |> Pipeline.halt()
     end

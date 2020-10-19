@@ -16,7 +16,7 @@ defmodule Chat.Accounts.Aggregates.User do
   end
 
   def apply(%User{} = user, %UserRegistered{} = registered) do
-    %User{} = %{
+    %User{
       user
       | uuid: registered.user_uuid,
         username: registered.username,

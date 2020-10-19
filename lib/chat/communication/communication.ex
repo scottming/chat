@@ -1,4 +1,5 @@
 defmodule Chat.Communication do
+  alias Chat.App
   alias Chat.Repo
   alias Chat.Communication.Projections.Room
 
@@ -15,5 +16,16 @@ defmodule Chat.Communication do
       attrs
       |> CreateChannel.new()
       |> CreateChannel.assign_uuid(uuid)
+
+    with :ok <- App.dispatch(create_channel, consistency: :strong) do
+      get(Room, uuid)
+    end
+  end
+
+  defp get(schema, uuid) do
+    case Repo.get(schema, uuid) do
+      nil -> {:error, :not_found}
+      projection -> {:ok, projection}
+    end
   end
 end

@@ -3,6 +3,9 @@ defmodule Chat.Router do
 
   alias Chat.Accounts.Aggregates.User
   alias Chat.Accounts.Commands.RegisterUser
+
+  alias Chat.Communication.Aggregates.Room
+  alias Chat.Communication.Commands.CreateChannel
   alias Chat.Middleware.ValidateCommand
 
   middleware(ValidateCommand)
@@ -10,4 +13,7 @@ defmodule Chat.Router do
   identify(User, by: :user_uuid, prefix: "user-")
 
   dispatch([RegisterUser], to: User)
+
+  # identify(Room, by: :room_uuid, prefix: "room-")
+  dispatch([CreateChannel], to: Room, identity: :channel_uuid, identity_prefix: "room-")
 end

@@ -26,13 +26,14 @@ defmodule Chat.Communication.Aggregates.Room do
     }
   end
 
-  def apply(%Room{uuid: nil}, %ChannelCreated{} = channel_created) do
+  def apply(%Room{} = room, %ChannelCreated{} = channel_created) do
     %Room{
-      uuid: channel_created.channel_uuid,
-      name: channel_created.name,
-      type: "c",
-      owner_uuid: channel_created.owner_uuid,
-      channel_user_uuids: channel_created.channel_user_uuids
+      room
+      | uuid: channel_created.channel_uuid,
+        name: channel_created.name,
+        type: "c",
+        owner_uuid: channel_created.owner_uuid,
+        channel_user_uuids: channel_created.channel_user_uuids
     }
   end
 end

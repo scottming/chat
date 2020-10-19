@@ -13,7 +13,8 @@ defmodule Chat.Accounts.Aggregates.RoomTest do
         build(:create_channel, owner_uuid: user_uuid, channel_uuid: channel_uuid),
         [
           %ChannelCreated{
-            owner_uuid: user_uuid
+            owner_uuid: user_uuid,
+            channel_uuid: channel_uuid
           }
         ]
       )
