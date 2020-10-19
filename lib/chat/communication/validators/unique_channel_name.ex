@@ -1,4 +1,4 @@
-defmodule Chat.Communication.Validator.UniqueChannelName do
+defmodule Chat.Communication.Validators.UniqueChannelName do
   alias Chat.Communication
   alias Chat.Communication.Projections.Room
 

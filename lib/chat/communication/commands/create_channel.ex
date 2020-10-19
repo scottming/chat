@@ -4,14 +4,20 @@ defmodule Chat.Communication.Commands.CreateChannel do
   use ExConstructor
 
   alias __MODULE__
+
+  import Chat.CommonValidators.UUID, only: [uuid_regex: 0]
   alias Chat.Communication.Validators.UniqueChannelName
 
   def valid?(command) do
-    Skooma.valid?(Map.from_struct(command), schema)
+    Skooma.valid?(Map.from_struct(command), schema())
   end
 
   defp schema() do
-    %{}
+    %{
+      channel_uuid: [:string, Skooma.Validators.regex(uuid_regex())],
+      name: [:string, &UniqueChannelName.validate(&1)],
+      owner_uuid: [:string, Skooma.Validators.regex(uuid_regex())]
+    }
   end
 
   def assign_uuid(%CreateChannel{} = create_channel, uuid) do
