@@ -1,4 +1,4 @@
-defmodule Chat.Accounts.Projection.User do
+defmodule Chat.Accounts.Projections.User do
   use Ecto.Schema
   import Ecto.Changeset
 

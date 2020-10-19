@@ -1,6 +1,6 @@
 defmodule Chat.Accounts.Validators.UniqueUsername do
   alias Chat.Accounts
-  alias Chat.Accounts.Projection.User
+  alias Chat.Accounts.Projections.User
 
   def validate(value) do
     case username_registered?(value) do

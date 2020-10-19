@@ -3,7 +3,7 @@ defmodule Chat.Fixture do
   alias Chat.Accounts
 
   def register_user(_context) do
-    {:ok, user} = fixture(:user)
+    {:ok, user} = fixture(:user) |> IO.inspect(label: "fuck3")
 
     [user: user]
   end
@@ -11,6 +11,7 @@ defmodule Chat.Fixture do
   def fixture(resource, attrs \\ [])
 
   def fixture(:user, attrs) do
-    build(:user, attrs) |> Accounts.register_user()
+    attrs |> IO.inspect(label: "fuck4 attrs")
+    build(:user, attrs) |> Accounts.register_user() |> IO.inspect(label: "fuck4")
   end
 end

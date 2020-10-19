@@ -5,7 +5,7 @@ defmodule Chat.Accounts do
 
   import Ecto.Query, warn: false
 
-  alias Chat.Accounts.Projection.User
+  alias Chat.Accounts.Projections.User
   alias Chat.Accounts.Commands.RegisterUser
 
   alias Chat.Repo

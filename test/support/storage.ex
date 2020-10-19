@@ -3,12 +3,12 @@ defmodule Chat.Storage do
   Reset the event store and read store databases.
   """
   def reset! do
-    :ok = Application.stop(:conduit)
+    :ok = Application.stop(:chat)
 
     reset_eventstore!()
     reset_readstore!()
 
-    {:ok, _} = Application.ensure_all_started(:conduit)
+    {:ok, _} = Application.ensure_all_started(:chat)
   end
 
   defp reset_eventstore! do
@@ -32,7 +32,7 @@ defmodule Chat.Storage do
       accounts_users,
       rooms,
       room_users,
-      messages,
+      messages
     RESTART IDENTITY;
     """
   end

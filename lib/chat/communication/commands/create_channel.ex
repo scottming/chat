@@ -6,7 +6,7 @@ defmodule Chat.Communication.Commands.CreateChannel do
   alias __MODULE__
 
   import Chat.CommonValidators.UUID, only: [uuid_regex: 0]
-  alias Chat.Communication.Validators.UniqueChannelName
+  alias Chat.Communication.Validators.{UniqueChannelName, ExistentUsers}
 
   def valid?(command) do
     Skooma.valid?(Map.from_struct(command), schema())
@@ -16,7 +16,7 @@ defmodule Chat.Communication.Commands.CreateChannel do
     %{
       channel_uuid: [:string, Skooma.Validators.regex(uuid_regex())],
       name: [:string, &UniqueChannelName.validate(&1)],
-      owner_uuid: [:string, Skooma.Validators.regex(uuid_regex())]
+      owner_uuid: [:string, Skooma.Validators.regex(uuid_regex()), &ExistentUsers.validate(&1)]
     }
   end
 

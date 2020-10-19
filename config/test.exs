@@ -8,9 +8,11 @@ use Mix.Config
 config :chat, Chat.Repo,
   username: System.get_env("USER"),
   password: "",
-  database: "chat_test#{System.get_env("MIX_TEST_PARTITION")}",
+  # database: "chat_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "chat_readstore_test",
   hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool_size: 1
+  # pool: Ecto.Adapters.SQL.Sandbox
 
 config :chat, Chat.EventStore,
   serializer: Commanded.Serialization.JsonSerializer,

@@ -5,7 +5,7 @@ defmodule Chat.Accounts.Projectors.User do
     consistency: :strong
 
   alias Chat.Accounts.Events.UserRegistered
-  alias Chat.Accounts.Projection.User
+  alias Chat.Accounts.Projections.User
 
   project(%UserRegistered{} = registered, fn multi ->
     Ecto.Multi.insert(multi, :user, %User{
