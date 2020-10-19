@@ -7,7 +7,7 @@ defmodule Chat.Communication.Projections.Room do
   schema "rooms" do
     field :name, :string
     field :type, :string
-    field :owner_uuid, :id
+    field :owner_uuid, :binary_id
 
     timestamps()
   end
