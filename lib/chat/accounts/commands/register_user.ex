@@ -2,20 +2,25 @@ defmodule Chat.Accounts.Commands.RegisterUser do
   defstruct user_uuid: "", username: "", email: "", password: "", hashed_password: ""
 
   use ExConstructor
-  use Vex.Struct
 
   alias __MODULE__
+  import Chat.CommonValidators.UUID, only: [uuid_regex: 0]
   alias Chat.Accounts.Validators.UniqueUsername
+
   alias Chat.Auth
 
-  validates(:user_uuid, uuid: true)
+  def valid?(command) do
+    Skooma.valid?(Map.from_struct(command), schema())
+  end
 
-  validates(:username,
-    presence: [message: "can't be empty"],
-    format: [with: ~r/^[a-z0-9]+$/, allow_nil: true, allow_blank: true, message: "is invalid"],
-    string: true,
-    by: &UniqueUsername.validate/2
-  )
+  defp schema() do
+    %{
+      user_uuid: [:string, Skooma.Validators.regex(uuid_regex())],
+      username: [:string, &UniqueUsername.validate(&1)],
+      email: :string,
+      password: :string
+    }
+  end
 
   def assign_uuid(%RegisterUser{} = register_user, uuid) do
     %{register_user | user_uuid: uuid}
