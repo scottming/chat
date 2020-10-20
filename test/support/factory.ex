@@ -4,6 +4,7 @@ defmodule Chat.Factory do
   alias Chat.Accounts.Commands.RegisterUser
   alias Chat.Communication.Commands.CreateChannel
   alias Chat.Communication.Commands.JoinChannel
+  alias Chat.Communication.Commands.SendMessage
 
   def user_factory() do
     %{
@@ -38,5 +39,20 @@ defmodule Chat.Factory do
   def join_channel_factory do
     attrs = %{channel_uuid: UUID.uuid4(), user_uuid: nil}
     struct(JoinChannel, attrs)
+  end
+
+  def message_factory do
+    %{
+      message_uuid: UUID.uuid4(),
+      room_uuid: UUID.uuid4(),
+      user_uuid: UUID.uuid4(),
+      type: "g",
+      content: sequence(:content, &"some content #{&1}")
+    }
+  end
+
+  def send_message_factory do
+    attrs = build(:message)
+    struct(SendMessage, attrs)
   end
 end

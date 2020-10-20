@@ -13,6 +13,17 @@ defmodule Chat.Fixture do
     [channel: channel]
   end
 
+  def join_channel(_context) do
+    {:ok, user} = fixture(:user)
+    {:ok, channel_room} = fixture(:channel)
+
+    {:ok, channel_room} =
+      build(:join_channel, channel_uuid: channel_room.uuid, user_uuid: user.uuid)
+      |> Communication.join_channel()
+
+    [user_uuid: user.uuid, channel_uuid: channel_room.uuid]
+  end
+
   def fixture(resource, attrs \\ [])
 
   def fixture(:user, attrs) do

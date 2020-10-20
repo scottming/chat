@@ -13,6 +13,8 @@ defmodule Chat.Communication.Projections.Room do
       join_through: "rooms_users",
       join_keys: [room_uuid: :uuid, user_uuid: :uuid]
 
+    has_many :messages, Chat.Communication.Projections.Message, foreign_key: :room_uuid
+
     timestamps()
   end
 

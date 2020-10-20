@@ -3,7 +3,7 @@ defmodule Chat.Communication do
   alias Chat.Repo
   alias Chat.Communication.Projections.Room
 
-  alias Chat.Communication.Commands.{CreateChannel, JoinChannel}
+  alias Chat.Communication.Commands.{CreateChannel, JoinChannel, SendMessage}
 
   def get_room_by(condition) do
     Repo.get_by(Room, condition)
@@ -27,6 +27,14 @@ defmodule Chat.Communication do
 
     with :ok <- App.dispatch(join_channel, consistency: :strong) do
       get(Room, attrs.channel_uuid, :users)
+    end
+  end
+
+  def send_message(attrs) do
+    send_message = attrs |> SendMessage.new()
+
+    with :ok <- App.dispatch(send_message, consistency: :strong) do
+      get(Room, attrs.channel_uuid, :messages)
     end
   end
 
