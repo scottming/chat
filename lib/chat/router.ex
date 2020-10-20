@@ -15,6 +15,11 @@ defmodule Chat.Router do
   dispatch([RegisterUser], to: User)
 
   # dispatch without indentify
-  dispatch([CreateChannel, JoinChannel], to: Room, identity: :channel_uuid, identity_prefix: "room-")
+  dispatch([CreateChannel, JoinChannel],
+    to: Room,
+    identity: :channel_uuid,
+    identity_prefix: "room-"
+  )
+
   dispatch([SendMessage], to: Room, identity: :room_uuid, identity_prefix: "room-")
 end

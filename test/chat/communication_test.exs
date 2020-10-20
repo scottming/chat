@@ -57,5 +57,11 @@ defmodule Chat.CommunicationTest do
       attrs = build(:send_message, room_uuid: cid, user_uuid: uid, content: nil)
       assert {:error, _, _, _} = Communication.send_message(attrs)
     end
+
+    test "should succeed with valid data", %{channel_uuid: cid, user_uuid: uid} do
+      attrs = build(:send_message, room_uuid: cid, user_uuid: uid)
+      assert {:ok, %{messages: [lastest_message | _]}} = Communication.send_message(attrs)
+      assert attrs.content == lastest_message.content
+    end
   end
 end

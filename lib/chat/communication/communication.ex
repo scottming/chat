@@ -3,6 +3,7 @@ defmodule Chat.Communication do
   alias Chat.Repo
   alias Chat.Communication.Projections.Room
 
+  alias __MODULE__
   alias Chat.Communication.Commands.{CreateChannel, JoinChannel, SendMessage}
 
   def get_room_by(condition) do
@@ -34,7 +35,18 @@ defmodule Chat.Communication do
     send_message = attrs |> SendMessage.new()
 
     with :ok <- App.dispatch(send_message, consistency: :strong) do
-      get(Room, attrs.channel_uuid, :messages)
+      get(Room, attrs.room_uuid, :messages)
+    end
+  end
+
+  import Ecto.Query, only: [from: 2]
+
+  defp get(Room, room_uuid, :messages) do
+    case get(Room, room_uuid)  do
+      {:ok, projection} -> 
+        query = from q in Communication.Projections.Message, order_by: [desc: q.inserted_at], limit: 10
+        {:ok, projection |> Repo.preload([messages: query])}
+      other -> other
     end
   end
 
