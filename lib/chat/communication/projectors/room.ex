@@ -4,7 +4,7 @@ defmodule Chat.Communication.Projectors.Room do
     name: "Communication.Projectors.User",
     consistency: :strong
 
-  alias Chat.Communication.Events.ChannelCreated
+  alias Chat.Communication.Events.{ChannelCreated, ChannelJoined}
   alias Chat.Communication.Projections.Room
   alias Chat.Communication.Projections.RoomUser
 
@@ -25,5 +25,14 @@ defmodule Chat.Communication.Projectors.Room do
       },
       returning: [:room_uuid, :user_uuid]
     )
+  end)
+
+  project(%ChannelJoined{} = channel_joined, fn multi ->
+    multi
+    |> Ecto.Multi.insert(:room_users, %RoomUser{
+      room_uuid: channel_joined.channel_uuid,
+      user_uuid: channel_joined.user_uuid,
+      role: "user"
+    })
   end)
 end

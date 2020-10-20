@@ -1,19 +1,17 @@
 defmodule Chat.Communication.Aggregates.Room do
-  defstruct [:uuid, :name, :type, :owner_uuid, :channel_user_uuids]
+  defstruct [:uuid, :name, :type, :owner_uuid, :room_user_uuids]
 
   alias __MODULE__
 
   alias Chat.Communication.Commands.{
     CreateChannel,
     JoinChannel,
-    CreateDirectChat,
     NotifyRoomUsers
   }
 
   alias Chat.Communication.Events.{
     ChannelCreated,
     ChannelJoined,
-    DirectChatCreated,
     RoomUsersNotified
   }
 
@@ -26,6 +24,10 @@ defmodule Chat.Communication.Aggregates.Room do
     }
   end
 
+  def execute(%Room{} = _room, %JoinChannel{} = join_channel) do
+    %ChannelJoined{channel_uuid: join_channel.channel_uuid, user_uuid: join_channel.user_uuid}
+  end
+
   def apply(%Room{} = room, %ChannelCreated{} = channel_created) do
     %Room{
       room
@@ -33,7 +35,14 @@ defmodule Chat.Communication.Aggregates.Room do
         name: channel_created.name,
         type: "c",
         owner_uuid: channel_created.owner_uuid,
-        channel_user_uuids: channel_created.channel_user_uuids
+        room_user_uuids: channel_created.channel_user_uuids
+    }
+  end
+
+  def apply(%Room{} = room, %ChannelJoined{} = channel_joined) do
+    %Room{
+      room
+      | room_user_uuids: [channel_joined.user_uuid | room.room_user_uuids]
     }
   end
 end

@@ -22,18 +22,6 @@ defmodule Chat.Accounts do
     end)
   end
 
-  # def register_user(attrs) do
-  #   # uuid = UUID.uuid4()
-  #   # register_user = %{attrs | uuid: uuid}
-  #   changeset =
-  #     User.changeset(
-  #       %User{},
-  #       attrs |> Map.put(:hashed_password, "pass") |> Map.put(:uuid, attrs.user_uuid)
-  #     )
-
-  #   Repo.insert(changeset)
-  # end
-
   def register_user(attrs) do
     uuid = UUID.uuid4()
 

@@ -8,6 +8,11 @@ defmodule Chat.Fixture do
     [user: user]
   end
 
+  def create_channel(_context) do
+    {:ok, channel} = fixture(:channel)
+    [channel: channel]
+  end
+
   def fixture(resource, attrs \\ [])
 
   def fixture(:user, attrs) do
@@ -15,6 +20,7 @@ defmodule Chat.Fixture do
   end
 
   def fixture(:channel, attrs) do
-    build(:channel, attrs) |> Communication.create_channel()
+    {:ok, user} = fixture(:user)
+    build(:channel, [owner_uuid: user.uuid] ++ attrs) |> Communication.create_channel()
   end
 end

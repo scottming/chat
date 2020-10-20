@@ -1,10 +1,10 @@
 defmodule Chat.Communication.Commands.JoinChannel do
-  defstruct [:channel_uuid, :user_uuid]
+  defstruct channel_uuid: "", user_uuid: ""
 
-  alias __MODULE__
+  use ExConstructor
 
   import Chat.CommonValidators.UUID, only: [uuid_regex: 0]
-  alias CHat.CommonValidators.Validators.ExistentChannel
+  alias Chat.Communication.Validators.ExistentChannel
 
   def valid?(command) do
     Skooma.valid?(Map.from_struct(command), schema())
@@ -12,8 +12,8 @@ defmodule Chat.Communication.Commands.JoinChannel do
 
   defp schema() do
     %{
-      channel_uuid: [:string, Skooma.Validators.regex(uuid_regex), & ExistentChannel.validate(&1)],
-      user_uuid: [:string, Skooma.Validators.regex(uuid_regex)]
+      channel_uuid: [:string, Skooma.Validators.regex(uuid_regex()), & ExistentChannel.validate(&1)],
+      user_uuid: [:string, Skooma.Validators.regex(uuid_regex())]
     }
   end
 end

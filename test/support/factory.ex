@@ -3,6 +3,7 @@ defmodule Chat.Factory do
 
   alias Chat.Accounts.Commands.RegisterUser
   alias Chat.Communication.Commands.CreateChannel
+  alias Chat.Communication.Commands.JoinChannel
 
   def user_factory() do
     %{
@@ -25,8 +26,17 @@ defmodule Chat.Factory do
     struct(RegisterUser, build(:user))
   end
 
-  def create_channel_factory do
+  def channel_factory do
     room = build(:room)
     struct(CreateChannel, room |> Map.put(:channel_uuid, room.room_uuid))
+  end
+
+  def create_channel_factory do
+    channel_factory
+  end
+
+  def join_channel_factory do
+    attrs = %{channel_uuid: UUID.uuid4(), user_uuid: nil}
+    struct(JoinChannel, attrs)
   end
 end

@@ -18,7 +18,6 @@ defmodule Chat.CommunicationTest do
 
     @tag :integration
     test "should succeed with valid data", %{user: %{uuid: user_uuid}} do
-
       # assert the owner the room users
       assert {:ok, %{owner_uuid: ^user_uuid, users: [%{uuid: ^user_uuid}]}} =
                Communication.create_channel(build(:create_channel, owner_uuid: user_uuid))
@@ -26,16 +25,25 @@ defmodule Chat.CommunicationTest do
   end
 
   describe "join channel" do
-    setup [:register_user]
+    setup [:register_user, :create_channel]
 
     @tag :integration
-    test "should succeed with valid data", %{user: user} do
-      assert %{} = user
+    test "should failed when channel not exist.", %{user: %{uuid: user_uuid}} do
+      channel_uuid = UUID.uuid4()
+      attrs = build(:join_channel, channel_uuid: channel_uuid, user_uuid: user_uuid)
+      assert {:error, _, _, ["channel_not_found"]} = Communication.join_channel(attrs)
     end
 
     @tag :integration
-    test "should fail with invalid data", %{user: user} do
-      assert %{} = user
+    test "should succeed with valid data", %{
+      user: %{uuid: user_uuid},
+      channel: %{uuid: channel_uuid}
+    } do
+      attrs = build(:join_channel, channel_uuid: channel_uuid, user_uuid: user_uuid)
+      assert {:ok, %{users: users}} = Communication.join_channel(attrs)
+      user_ids = Enum.map(users, & &1.uuid)
+      assert user_ids |> Enum.uniq() |> length == 2
+      assert user_uuid in user_ids
     end
   end
 end
