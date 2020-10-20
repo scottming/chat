@@ -10,6 +10,10 @@ defmodule Chat.Accounts.Projections.User do
     field :hashed_password, :string
     field :username, :string
 
+    many_to_many :rooms, Chat.Communication.Projections.Room,
+      join_through: "rooms_users",
+      join_keys: [user_uuid: :uuid, room_uuid: :uuid]
+
     timestamps()
   end
 

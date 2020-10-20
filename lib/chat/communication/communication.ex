@@ -18,7 +18,14 @@ defmodule Chat.Communication do
       |> CreateChannel.assign_uuid(uuid)
 
     with :ok <- App.dispatch(create_channel, consistency: :strong) do
-      get(Room, uuid)
+      get(Room, uuid, :users)
+    end
+  end
+
+  defp get(schema, uuid, preload_schema) do
+    case get(schema, uuid) do
+      {:ok, projection} -> projection |> Repo.preload(preload_schema)
+      other -> other
     end
   end
 

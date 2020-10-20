@@ -9,6 +9,10 @@ defmodule Chat.Communication.Projections.Room do
     field :type, :string
     field :owner_uuid, :binary_id
 
+    many_to_many :users, Chat.Accounts.Projections.User,
+      join_through: "rooms_users",
+      join_keys: [room_uuid: :uuid, user_uuid: :uuid]
+
     timestamps()
   end
 

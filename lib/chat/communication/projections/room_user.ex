@@ -2,10 +2,12 @@ defmodule Chat.Communication.Projections.RoomUser do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "room_users" do
+  @primary_key false
+
+  schema "rooms_users" do
     field :role, :string
-    field :room_id, :id
-    field :user_id, :id
+    field :room_uuid, :binary_id, primary_key: true
+    field :user_uuid, :binary_id, primary_key: true
 
     timestamps()
   end

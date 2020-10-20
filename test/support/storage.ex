@@ -4,7 +4,6 @@ defmodule Chat.Storage do
   """
   def reset! do
     :ok = Application.stop(:chat)
-
     reset_eventstore!()
     reset_readstore!()
 
@@ -31,7 +30,7 @@ defmodule Chat.Storage do
     TRUNCATE TABLE
       accounts_users,
       rooms,
-      room_users,
+      rooms_users,
       messages
     RESTART IDENTITY;
     """
