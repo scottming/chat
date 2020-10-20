@@ -24,7 +24,7 @@ defmodule Chat.Communication do
 
   defp get(schema, uuid, preload_schema) do
     case get(schema, uuid) do
-      {:ok, projection} -> projection |> Repo.preload(preload_schema)
+      {:ok, projection} -> {:ok, projection |> Repo.preload(preload_schema)}
       other -> other
     end
   end

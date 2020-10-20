@@ -1,6 +1,7 @@
 defmodule Chat.Fixture do
   import Chat.Factory
   alias Chat.Accounts
+  alias Chat.Communication
 
   def register_user(_context) do
     {:ok, user} = fixture(:user)
@@ -11,5 +12,9 @@ defmodule Chat.Fixture do
 
   def fixture(:user, attrs) do
     build(:user, attrs) |> Accounts.register_user()
+  end
+
+  def fixture(:channel, attrs) do
+    build(:channel, attrs) |> Communication.create_channel()
   end
 end

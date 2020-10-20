@@ -18,8 +18,19 @@ defmodule Chat.CommunicationTest do
     test "should succeed with valid data" do
       {:ok, %{uuid: user_uuid}} = fixture(:user)
 
-      assert {:ok, %{owner_uuid: ^user_uuid}} =
+      # assert the owner the room users
+      assert {:ok, %{owner_uuid: ^user_uuid, users: [%{uuid: ^user_uuid}]}} =
                Communication.create_channel(build(:create_channel, owner_uuid: user_uuid))
+    end
+  end
+
+  describe "join channel" do
+    @tag :integration
+    test "should succeed with valid data" do
+      # fixture 调用两次时会有问题
+      {:ok, %{uuid: user_uuid}} = fixture(:user)
+
+      # {:ok, %{uuid: _channel_uuid}} = fixture(:channel, user_uuid: user_uuid)
     end
   end
 end
