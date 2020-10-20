@@ -7,8 +7,8 @@ config :chat, ChatWeb.Endpoint,
   server: false
 
 # Print only warnings and errors during test
-# config :logger, level: :warn
-config :logger, :console, format: "[$level] $message\n"
+config :logger, level: :warn
+# config :logger, :console, format: "[$level] $message\n"
 
 # Configures the event store database
 config :chat, Chat.EventStore,

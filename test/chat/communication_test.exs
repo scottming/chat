@@ -14,9 +14,10 @@ defmodule Chat.CommunicationTest do
       assert ["owner_not_found"] = errors
     end
 
+    setup [:register_user]
+
     @tag :integration
-    test "should succeed with valid data" do
-      {:ok, %{uuid: user_uuid}} = fixture(:user)
+    test "should succeed with valid data", %{user: %{uuid: user_uuid}} do
 
       # assert the owner the room users
       assert {:ok, %{owner_uuid: ^user_uuid, users: [%{uuid: ^user_uuid}]}} =
@@ -25,12 +26,16 @@ defmodule Chat.CommunicationTest do
   end
 
   describe "join channel" do
-    @tag :integration
-    test "should succeed with valid data" do
-      # fixture 调用两次时会有问题
-      {:ok, %{uuid: user_uuid}} = fixture(:user)
+    setup [:register_user]
 
-      # {:ok, %{uuid: _channel_uuid}} = fixture(:channel, user_uuid: user_uuid)
+    @tag :integration
+    test "should succeed with valid data", %{user: user} do
+      assert %{} = user
+    end
+
+    @tag :integration
+    test "should fail with invalid data", %{user: user} do
+      assert %{} = user
     end
   end
 end

@@ -31,7 +31,8 @@ defmodule Chat.Storage do
       accounts_users,
       rooms,
       rooms_users,
-      messages
+      messages,
+      projection_versions
     RESTART IDENTITY;
     """
   end

@@ -20,7 +20,7 @@ defmodule Chat.Accounts.Projections.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:username, :email, :hashed_password])
-    |> validate_required([:username, :email, :hashed_password])
+    |> cast(attrs, [:username, :email, :hashed_password, :uuid])
+    |> validate_required([:username, :email, :hashed_password, :uuid])
   end
 end
