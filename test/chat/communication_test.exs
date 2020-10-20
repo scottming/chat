@@ -42,6 +42,8 @@ defmodule Chat.CommunicationTest do
       attrs = build(:join_channel, channel_uuid: channel_uuid, user_uuid: user_uuid)
       assert {:ok, %{users: users}} = Communication.join_channel(attrs)
       user_ids = Enum.map(users, & &1.uuid)
+      
+      # assert there are 2 users in channel
       assert user_ids |> Enum.uniq() |> length == 2
       assert user_uuid in user_ids
     end
