@@ -18,10 +18,12 @@ defmodule Chat.MixProject do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    [
-      mod: {Chat.Application, []},
-      extra_applications: [:logger, :runtime_tools]
-    ]
+    # [
+      # mod: {Chat.Application, []},
+      # extra_applications: [:logger, :runtime_tools]
+
+    # ]
+    [mod: {Chat.Application, []}, extra_applications: [:eventstore]]
   end
 
   # Specifies which paths to compile per environment.

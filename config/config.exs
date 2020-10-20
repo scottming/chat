@@ -1,12 +1,6 @@
-# This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
-#
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
-
-# General application configuration
 use Mix.Config
 
+# General application configuration
 config :chat,
   ecto_repos: [Chat.Repo],
   event_stores: [Chat.EventStore]
@@ -19,26 +13,33 @@ config :chat, Chat.App,
   pub_sub: :local,
   registry: :local
 
-config :commanded, event_store: Commanded.EventStore.Adapters.EventStore
-
-config :commanded_ecto_projections, repo: Chat.Repo
-
 # Configures the endpoint
 config :chat, ChatWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "9kN6Ai328uIcE9HltZDcmcPXIHLob38hmxKXIDgiGR+NAc2JxvkkAMlkgb3Dsje4",
-  render_errors: [view: ChatWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Chat.PubSub,
-  live_view: [signing_salt: "p5VJxuTs"]
+  secret_key_base: "hXslnxxJrzfI918PrmgkZZwJU3GYhT8y1500AP6Foxq9aDgjChbi0BcMdsscFkAs",
+  render_errors: [view: ChatWeb.ErrorView, accepts: ~w(json)],
+  pubsub_server: Chat.PubSub
 
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-# Use Jason for JSON parsing in Phoenix
+config :commanded,
+  event_store_adapter: Commanded.EventStore.Adapters.EventStore
+
+config :commanded_ecto_projections,
+  repo: Chat.Repo
+
 config :phoenix, :json_library, Jason
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
+config :chat, Chat.Auth.Guardian,
+  allowed_algos: ["HS512"],
+  verify_module: Guardian.JWT,
+  issuer: "Chat",
+  ttl: {30, :days},
+  allowed_drift: 2000,
+  verify_issuer: true,
+  secret_key: "IOjbrty1eMEBzc5aczQn0FR4Gd8P9IF1cC7tqwB7ThV/uKjS5mrResG1Y0lCzTNJ"
+
 import_config "#{Mix.env()}.exs"

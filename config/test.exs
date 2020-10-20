@@ -1,19 +1,15 @@
 use Mix.Config
 
-# Configure your database
-#
-# The MIX_TEST_PARTITION environment variable can be used
-# to provide built-in test partitioning in CI environment.
-# Run `mix help test` for more information.
-config :chat, Chat.Repo,
-  username: System.get_env("USER"),
-  password: "",
-  # database: "chat_test#{System.get_env("MIX_TEST_PARTITION")}",
-  database: "chat_readstore_test",
-  hostname: "localhost",
-  pool_size: 1
-  # pool: Ecto.Adapters.SQL.Sandbox
+# We don't run a server during test. If one is required,
+# you can enable the server option below.
+config :chat, ChatWeb.Endpoint,
+  http: [port: 4001],
+  server: false
 
+# Print only warnings and errors during test
+config :logger, level: :warn
+
+# Configures the event store database
 config :chat, Chat.EventStore,
   serializer: Commanded.Serialization.JsonSerializer,
   username: System.get_env("USER"),
@@ -22,11 +18,11 @@ config :chat, Chat.EventStore,
   hostname: "localhost",
   pool_size: 1
 
-# We don't run a server during test. If one is required,
-# you can enable the server option below.
-config :chat, ChatWeb.Endpoint,
-  http: [port: 4002],
-  server: false
-
-# Print only warnings and errors during test
-config :logger, level: :warn
+# Configures the read store database
+config :chat, Chat.Repo,
+  migration_timestamps: [type: :utc_datetime_usec],
+  username: System.get_env("USER"),
+  password: "",
+  database: "chat_readstore_test",
+  hostname: "localhost",
+  pool_size: 1

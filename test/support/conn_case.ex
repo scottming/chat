@@ -5,14 +5,7 @@ defmodule ChatWeb.ConnCase do
 
   Such tests rely on `Phoenix.ConnTest` and also
   import other functionality to make it easier
-  to build common data structures and query the data layer.
-
-  Finally, if the test case interacts with the database,
-  we enable the SQL sandbox, so changes done to the database
-  are reverted at the end of every test. If you are using
-  PostgreSQL, you can even run database tests asynchronously
-  by setting `use ChatWeb.ConnCase, async: true`, although
-  this option is not recommended for other databases.
+  to build common datastructures and query the data layer.
   """
 
   use ExUnit.CaseTemplate
@@ -22,9 +15,10 @@ defmodule ChatWeb.ConnCase do
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import ChatWeb.ConnCase
 
-      alias ChatWeb.Router.Helpers, as: Routes
+      import ChatWeb.Router.Helpers
+      import Chat.Factory
+      import Chat.Fixture
 
       # The default endpoint for testing
       @endpoint ChatWeb.Endpoint
@@ -35,14 +29,4 @@ defmodule ChatWeb.ConnCase do
     Chat.Storage.reset!()
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
-
-  # setup tags do
-  #   :ok = Ecto.Adapters.SQL.Sandbox.checkout(Chat.Repo)
-
-  #   unless tags[:async] do
-  #     Ecto.Adapters.SQL.Sandbox.mode(Chat.Repo, {:shared, self()})
-  #   end
-
-  #   {:ok, conn: Phoenix.ConnTest.build_conn()}
-  # end
 end
