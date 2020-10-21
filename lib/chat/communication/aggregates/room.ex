@@ -6,15 +6,15 @@ defmodule Chat.Communication.Aggregates.Room do
   alias Chat.Communication.Commands.{
     CreateChannel,
     JoinChannel,
-    NotifyRoomUsers,
+    NotityUsers,
     SendMessage
   }
 
   alias Chat.Communication.Events.{
     ChannelCreated,
     ChannelJoined,
-    RoomUsersNotified,
-    MessageSended
+    MessageSended,
+    UsersNotified
   }
 
   def execute(%Room{uuid: nil}, %CreateChannel{} = create_channel) do
@@ -40,6 +40,14 @@ defmodule Chat.Communication.Aggregates.Room do
     }
   end
 
+  def execute(%Room{} = _room, %NotityUsers{} = notify_users) do
+    %UsersNotified{
+      content: notify_users.content,
+      room_uuid: notify_users.room_uuid,
+      user_uuids: notify_users.user_uuids
+    }
+  end
+
   def apply(%Room{} = room, %ChannelCreated{} = channel_created) do
     %Room{
       room
@@ -61,7 +69,12 @@ defmodule Chat.Communication.Aggregates.Room do
 
   def apply(%Room{} = room, %MessageSended{} = message) do
     %Room{
-      room | message_uuids: [message.message_uuid | room.message_uuids]
+      room
+      | message_uuids: [message.message_uuid | room.message_uuids]
     }
+  end
+
+  def apply(%Room{} = room, %UsersNotified{} = _ ) do
+    room
   end
 end

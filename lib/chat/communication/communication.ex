@@ -4,7 +4,7 @@ defmodule Chat.Communication do
   alias Chat.Communication.Projections.Room
 
   alias __MODULE__
-  alias Chat.Communication.Commands.{CreateChannel, JoinChannel, SendMessage}
+  alias Chat.Communication.Commands.{CreateChannel, JoinChannel, SendMessage, NotityUsers}
 
   def get_room_by(condition) do
     Repo.get_by(Room, condition)
@@ -39,14 +39,38 @@ defmodule Chat.Communication do
     end
   end
 
+  def notify_users(attrs) do
+    {:ok, room} = get(Room, attrs.room_uuid, :users)
+
+    user_uuids =
+      room
+      |> Map.get(:users)
+      |> Enum.map(& &1.uuid)
+      |> Enum.reject(&(&1 == attrs.user_uuid))
+
+    notify_users = attrs |> NotityUsers.new() |> NotityUsers.assign_user_uuid(user_uuids)
+
+    with :ok <- App.dispatch(notify_users, consistency: :strong) do
+      IO.puts("broadcast: #{notify_users.content}")
+      room |> preload_messages()
+    end
+  end
+
   import Ecto.Query, only: [from: 2]
 
+  defp preload_messages(room) do
+    query =
+      from q in Communication.Projections.Message, order_by: [desc: q.inserted_at], limit: 10
+
+    room |> Repo.preload(messages: query)
+  end
+
   defp get(Room, room_uuid, :messages) do
-    case get(Room, room_uuid)  do
-      {:ok, projection} -> 
-        query = from q in Communication.Projections.Message, order_by: [desc: q.inserted_at], limit: 10
-        {:ok, projection |> Repo.preload([messages: query])}
-      other -> other
+    case get(Room, room_uuid) do
+      {:ok, projection} ->
+        {:ok, projection |> preload_messages()}
+      other ->
+        other
     end
   end
 

@@ -4,7 +4,7 @@ defmodule Chat.Communication.Projectors.Room do
     name: "Communication.Projectors.User",
     consistency: :strong
 
-  alias Chat.Communication.Events.{ChannelCreated, ChannelJoined, MessageSended}
+  alias Chat.Communication.Events.{ChannelCreated, ChannelJoined, MessageSended, UsersNotified}
   alias Chat.Communication.Projections.{Room, RoomUser, Message}
 
   project(%ChannelCreated{} = channel_created, fn multi ->

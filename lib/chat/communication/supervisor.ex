@@ -9,7 +9,7 @@ defmodule Chat.Communication.Supervisor do
 
   def init(_arg) do
     Supervisor.init(
-      [Communication.Projectors.Room],
+      [Communication.Projectors.Room, Communication.Workflows.NotifyUserFromJoined],
       strategy: :one_for_one
     )
   end
