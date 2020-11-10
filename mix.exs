@@ -47,7 +47,6 @@ defmodule Chat.MixProject do
       {:elixir_uuid, "~> 1.2"},
       {:phoenix, "~> 1.5.0"},
       {:phoenix_ecto, "~> 4.1"},
-      {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 2.11"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
@@ -56,7 +55,9 @@ defmodule Chat.MixProject do
       {:telemetry_poller, "~> 0.4"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:extrace, github: "redink/extrace", only: :dev},
+      {:closure_table, github: "scottming/closure_table"},
     ]
   end
 

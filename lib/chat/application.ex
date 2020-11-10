@@ -19,7 +19,8 @@ defmodule Chat.Application do
       # Start a worker by calling: Chat.Worker.start_link(arg)
       # {Chat.Worker, arg}
       Chat.Accounts.Supervisor,
-      Chat.Communication.Supervisor
+      Chat.Communication.Supervisor,
+      Chat.ProductCatalog.Supervisor,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
