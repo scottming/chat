@@ -20,7 +20,6 @@ defmodule Chat.Application do
       # {Chat.Worker, arg}
       Chat.Accounts.Supervisor,
       Chat.Communication.Supervisor,
-      Chat.ProductCatalog.Supervisor,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
